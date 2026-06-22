@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @GetMapping("/login")
     public String login() {
-        return "Login endpoint - feature branch!";
+        return "Login endpoint - feature branch!-v2";
     }
 }
