@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-21.0.10'
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-21.0.11'
         PATH = "${JAVA_HOME}\\bin;${env.PATH}"
         DOCKER_IMAGE = 'jenkins-poc'
         DOCKER_TAG = "v${env.BUILD_NUMBER}"
