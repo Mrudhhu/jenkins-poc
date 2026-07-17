@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-poc
+  labels:
+    app: jenkins-poc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: jenkins-poc
+  template:
+    metadata:
+      labels:
+        app: jenkins-poc
+    spec:
+      containers:
+        - name: jenkins-poc
+          image: jenkins-poc:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: APP_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: jenkins-poc-config
+                  key: APP_ENVIRONMENT
+            - name: GREETING_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: jenkins-poc-config
+                  key: GREETING_MESSAGE
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: jenkins-poc-config
+                  key: LOG_LEVEL
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-poc-secret
+                  key: DB_PASSWORD
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-poc-secret
+                  key: API_KEY

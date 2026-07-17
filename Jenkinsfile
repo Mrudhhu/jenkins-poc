@@ -39,6 +39,11 @@ pipeline {
                 bat "docker run -d -p 8081:8080 --name jenkins-poc-container ${DOCKER_IMAGE}:latest"
             }
         }
+        stage('Test Kubectl Access') {
+            steps {
+                bat 'kubectl get nodes'
+            }
+        }
     }
 
     post {
