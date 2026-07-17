@@ -39,9 +39,12 @@ pipeline {
                 bat "docker run -d -p 8081:8080 --name jenkins-poc-container ${DOCKER_IMAGE}:latest"
             }
         }
-        stage('Test Kubectl Access') {
+        stage('Deploy to K8s') {
             steps {
-                bat 'kubectl get nodes'
+                bat "powershell -Command \"(Get-Content k8s/deployment.yaml) -replace 'jenkins-poc:latest', '${DOCKER_IMAGE}:${DOCKER_TAG}' | Set-Content k8s/deployment-final.yaml\""
+                bat 'kubectl apply -f k8s/deployment-final.yaml'
+                bat 'kubectl apply -f k8s/service.yaml'
+                bat 'kubectl rollout status deployment/jenkins-poc'
             }
         }
     }
